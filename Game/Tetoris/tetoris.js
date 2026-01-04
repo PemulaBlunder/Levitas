@@ -511,7 +511,7 @@ class TetrisGame {
     this.setStatus("Game Over");
     this.scoreManager.updateBest();
     this.updateHUD();
-    this.render(true);
+    this.render();
 
     sendScoreToServer(this.scoreManager.score);
   }
@@ -590,11 +590,11 @@ class TetrisGame {
     return this.running && !this.paused && !this.gameOver;
   }
 
-  render(showGameOver = false) {
+  render() {
     this.renderer.drawBoard(this.grid, this.currentPiece);
     this.renderer.drawNext(this.nextPiece);
 
-    if (showGameOver) {
+    if (this.gameOver) {
       this.renderer.drawGameOver();
     }
   }
@@ -690,13 +690,13 @@ function sendScoreToServer(score) {
   fetch("/osaindiasnjd/Game/save_score.php", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     credentials: "same-origin",
     body: JSON.stringify({
       game: "tetris",
-      score: score
-    })
+      score: score,
+    }),
   })
     .then((res) => {
       console.log("📡 Response status:", res.status);
@@ -709,7 +709,6 @@ function sendScoreToServer(score) {
       console.error("🔥 Fetch error:", err);
     });
 }
-
 
 // Initialize game
 const game = new TetrisGame();
