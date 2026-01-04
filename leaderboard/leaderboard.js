@@ -4,13 +4,13 @@
 
 class LeaderboardManager {
   constructor() {
-    this.currentTab = 'overall';
+    this.currentTab = "overall";
     this.data = {
       overall: [],
       snake: [],
-      tetris: []
+      tetris: [],
     };
-    
+
     this.init();
   }
 
@@ -20,10 +20,10 @@ class LeaderboardManager {
   }
 
   setupTabs() {
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
+    const tabButtons = document.querySelectorAll(".tab-btn");
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
         const tab = btn.dataset.tab;
         this.switchTab(tab);
       });
@@ -32,48 +32,50 @@ class LeaderboardManager {
 
   switchTab(tab) {
     this.currentTab = tab;
-    
+
     // Update button states
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.tab === tab);
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.tab === tab);
     });
-    
+
     // Update content
-    document.querySelectorAll('.tab-content').forEach(content => {
-      content.classList.toggle('active', content.id === `tab-${tab}`);
+    document.querySelectorAll(".tab-content").forEach((content) => {
+      content.classList.toggle("active", content.id === `tab-${tab}`);
     });
   }
 
   async loadAllData() {
     await Promise.all([
       this.loadOverall(),
-      this.loadGameLeaderboard('snake'),
-      this.loadGameLeaderboard('tetris')
+      this.loadGameLeaderboard("snake"),
+      this.loadGameLeaderboard("tetris"),
     ]);
   }
 
   async loadOverall() {
     try {
-      const response = await fetch('get_leaderboard.php?type=overall');
+      const response = await fetch("get_leaderboard.php?type=overall");
       const result = await response.json();
-      
+
       if (result.success) {
         this.data.overall = result.data;
         this.renderOverall();
       } else {
-        this.renderError('overall-tbody', result.message);
+        this.renderError("overall-tbody", result.message);
       }
     } catch (error) {
-      console.error('Error loading overall leaderboard:', error);
-      this.renderError('overall-tbody', 'Failed to load leaderboard');
+      console.error("Error loading overall leaderboard:", error);
+      this.renderError("overall-tbody", "Failed to load leaderboard");
     }
   }
 
   async loadGameLeaderboard(gameKey) {
     try {
-      const response = await fetch(`get_leaderboard.php?type=game&game=${gameKey}`);
+      const response = await fetch(
+        `get_leaderboard.php?type=game&game=${gameKey}`
+      );
       const result = await response.json();
-      
+
       if (result.success) {
         this.data[gameKey] = result.data;
         this.renderGameLeaderboard(gameKey);
@@ -82,87 +84,119 @@ class LeaderboardManager {
       }
     } catch (error) {
       console.error(`Error loading ${gameKey} leaderboard:`, error);
-      this.renderError(`${gameKey}-tbody`, 'Failed to load leaderboard');
+      this.renderError(`${gameKey}-tbody`, "Failed to load leaderboard");
     }
   }
 
+  getAvatarHtml(player) {
+    if (player.photo && player.photo !== "") {
+      const photoPath = player.photo.startsWith("uploads/")
+        ? `../${player.photo}` // SESUAIKAN PATH
+        : player.photo;
+
+      return `
+      <img 
+        src="${photoPath}" 
+        class="player-avatar-img"
+        onerror="this.src='../uploads/users/default.png'"
+      >
+    `;
+    }
+
+    // fallback ke inisial
+    const initial = player.username.charAt(0).toUpperCase();
+    return `<div class="player-avatar">${initial}</div>`;
+  }
+
   renderOverall() {
-    const tbody = document.getElementById('overall-tbody');
-    
+    const tbody = document.getElementById("overall-tbody");
+
     if (this.data.overall.length === 0) {
       tbody.innerHTML = this.getEmptyState();
       return;
     }
-    
-    tbody.innerHTML = this.data.overall.map((player, index) => {
-      const rank = index + 1;
-      const rankClass = this.getRankClass(rank);
-      const initial = player.username.charAt(0).toUpperCase();
-      
-      return `
+
+    tbody.innerHTML = this.data.overall
+      .map((player, index) => {
+        const rank = index + 1;
+        const rankClass = this.getRankClass(rank);
+        const avatar = this.getAvatarHtml(player);
+
+        return `
         <tr>
           <td class="rank-col">
             <span class="rank ${rankClass}">${rank}</span>
           </td>
           <td class="player-col">
             <div class="player-info">
-              <div class="player-avatar">${initial}</div>
-              <span class="player-name">${this.escapeHtml(player.username)}</span>
+              ${avatar}
+              <span class="player-name">${this.escapeHtml(
+                player.username
+              )}</span>
             </div>
           </td>
           <td class="score-col">
-            <span class="score-value">${this.formatScore(player.total_score)}</span>
+            <span class="score-value">${this.formatScore(
+              player.total_score
+            )}</span>
           </td>
         </tr>
       `;
-    }).join('');
+      })
+      .join("");
   }
 
   renderGameLeaderboard(gameKey) {
     const tbody = document.getElementById(`${gameKey}-tbody`);
-    
+
     if (this.data[gameKey].length === 0) {
       tbody.innerHTML = this.getEmptyState();
       return;
     }
-    
-    tbody.innerHTML = this.data[gameKey].map((player, index) => {
-      const rank = index + 1;
-      const rankClass = this.getRankClass(rank);
-      const initial = player.username.charAt(0).toUpperCase();
-      
-      return `
+
+    tbody.innerHTML = this.data[gameKey]
+      .map((player, index) => {
+        const rank = index + 1;
+        const rankClass = this.getRankClass(rank);
+        const avatar = this.getAvatarHtml(player);
+
+        return `
         <tr>
           <td class="rank-col">
             <span class="rank ${rankClass}">${rank}</span>
           </td>
           <td class="player-col">
             <div class="player-info">
-              <div class="player-avatar">${initial}</div>
-              <span class="player-name">${this.escapeHtml(player.username)}</span>
+              ${avatar}
+              <span class="player-name">${this.escapeHtml(
+                player.username
+              )}</span>
             </div>
           </td>
           <td class="score-col">
-            <span class="score-value">${this.formatScore(player.best_score)}</span>
+            <span class="score-value">${this.formatScore(
+              player.best_score
+            )}</span>
           </td>
         </tr>
       `;
-    }).join('');
+      })
+      .join("");
   }
 
   getRankClass(rank) {
-    if (rank === 1) return 'gold';
-    if (rank === 2) return 'silver';
-    if (rank === 3) return 'bronze';
-    return 'normal';
+    if (rank === 1) return "gold";
+    if (rank === 2) return "silver";
+    if (rank === 3) return "bronze";
+    return "normal";
   }
 
   formatScore(score) {
-    return parseInt(score).toLocaleString('id-ID');
+    return parseInt(score).toLocaleString("id-ID");
   }
 
   escapeHtml(text) {
-    const div = document.createElement('div');
+    const div = document.createElement("div");
     div.textContent = text;
     return div.innerHTML;
   }

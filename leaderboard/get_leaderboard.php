@@ -15,10 +15,11 @@ function getOverallLeaderboard($pdo, $limit = 10) {
         SELECT 
             u.id,
             u.username,
-            SUM(s.score) as total_score
+            u.photo,
+            SUM(s.score) AS total_score
         FROM users u
         INNER JOIN scores s ON u.id = s.user_id
-        GROUP BY u.id, u.username
+        GROUP BY u.id, u.username, u.photo
         ORDER BY total_score DESC
         LIMIT :limit
     ";
@@ -36,12 +37,13 @@ function getGameLeaderboard($pdo, $gameKey, $limit = 10) {
         SELECT 
             u.id,
             u.username,
-            MAX(s.score) as best_score
+            u.photo,
+            MAX(s.score) AS best_score
         FROM users u
         INNER JOIN scores s ON u.id = s.user_id
         INNER JOIN games g ON s.game_id = g.id
         WHERE g.game_key = :game_key
-        GROUP BY u.id, u.username
+        GROUP BY u.id, u.username, u.photo
         ORDER BY best_score DESC
         LIMIT :limit
     ";
