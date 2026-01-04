@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris - Localhost</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <main class="wrap">
+      <header class="top">
+        <h1>Tetris</h1>
+        <div class="stats">
+          <div>Skor: <span id="score">0</span></div>
+          <div>Lines: <span id="lines">0</span></div>
+          <div>Level: <span id="level">1</span></div>
+          <div>Best: <span id="best">0</span></div>
+          <div>Status: <span id="status">Ready</span></div>
+        </div>
+      </header>
+
+      <section class="panel">
+        <canvas id="board" width="320" height="640"></canvas>
+
+        <aside class="side">
+          <div class="card">
+            <h3>Next</h3>
+            <canvas id="next" width="160" height="160"></canvas>
+          </div>
+
+          <div class="card">
+            <h3>Kontrol</h3>
+            <ul>
+              <li>← → : geser</li>
+              <li>↓ : soft drop</li>
+              <li>↑ / X : rotate</li>
+              <li>Z : rotate CCW</li>
+              <li>Space : hard drop</li>
+              <li>P : pause</li>
+              <li>R : restart</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Difficulty</h3>
+
+            <div class="difficulty-group">
+              <button class="difficulty-btn" data-diff="EASY">Easy</button>
+              <button class="difficulty-btn active" data-diff="NORMAL">
+                Normal
+              </button>
+              <button class="difficulty-btn" data-diff="HARD">Hard</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <button id="btnStart">Start</button>
+            <button id="btnPause">Pause</button>
+            <button id="btnRestart">Restart</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <!-- JS -->
+    <script src="./tetoris.js"></script>
+  </body>
+</html>

@@ -115,198 +115,213 @@ if (isset($_POST['update_photo']) && isset($_FILES['photo'])) {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage - <?php echo htmlspecialchars($user['username']); ?></title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .header {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .profile-photo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #667eea;
+    }
+
+    .user-details h2 {
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .user-details p {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .logout-btn {
+        padding: 12px 30px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+    }
+
+    .content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #667eea;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="file"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: transform 0.2s;
+    }
+
+    button[type="submit"]:hover {
+        transform: translateY(-2px);
+    }
+
+    .alert {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .preview-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 15px auto;
+        display: block;
+        border: 3px solid #667eea;
+    }
+
+    .card-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .game-card {
+        cursor: pointer;
+    }
+
+    .game-card:hover {
+        transform: translateY(-5px);
+    }
+
+    @media (max-width: 768px) {
         .header {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            flex-direction: column;
+            text-align: center;
         }
-        
+
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            flex-direction: column;
         }
-        
-        .profile-photo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #667eea;
-        }
-        
-        .user-details h2 {
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .user-details p {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .logout-btn {
-            padding: 12px 30px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .logout-btn:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-        }
-        
-        .content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .card h3 {
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        input[type="text"],
-        input[type="password"],
-        input[type="file"] {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        button[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: transform 0.2s;
-        }
-        
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-        }
-        
-        .alert {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .preview-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 15px auto;
-            display: block;
-            border: 3px solid #667eea;
-        }
-        
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .user-info {
-                flex-direction: column;
-            }
-        }
+    }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <div class="user-info">
-                <img src="<?php echo file_exists($user['photo']) ? htmlspecialchars($user['photo']) : 'uploads/users/default.png'; ?>" 
-                     alt="Profile" class="profile-photo" 
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23667eea%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2240%22 font-family=%22Arial%22%3E<?php echo strtoupper(substr($user['username'], 0, 1)); ?>%3C/text%3E%3C/svg%3E'">
+                <img src="<?php echo file_exists($user['photo']) ? htmlspecialchars($user['photo']) : 'uploads/users/default.png'; ?>"
+                    alt="Profile" class="profile-photo"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23667eea%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2240%22 font-family=%22Arial%22%3E<?php echo strtoupper(substr($user['username'], 0, 1)); ?>%3C/text%3E%3C/svg%3E'">
                 <div class="user-details">
                     <h2>👋 Halo, <?php echo htmlspecialchars($user['username']); ?>!</h2>
                     <p>📧 <?php echo htmlspecialchars($user['email']); ?></p>
@@ -314,15 +329,15 @@ if (isset($_POST['update_photo']) && isset($_FILES['photo'])) {
             </div>
             <a href="?action=logout" class="logout-btn" onclick="return confirm('Yakin ingin logout?')">Logout</a>
         </div>
-        
+
         <?php if ($success): ?>
-            <div class="alert alert-success"><?php echo $success; ?></div>
+        <div class="alert alert-success"><?php echo $success; ?></div>
         <?php endif; ?>
-        
+
         <?php if ($error): ?>
-            <div class="alert alert-error"><?php echo $error; ?></div>
+        <div class="alert alert-error"><?php echo $error; ?></div>
         <?php endif; ?>
-        
+
         <div class="content">
             <!-- Card Ubah Username -->
             <div class="card">
@@ -330,12 +345,13 @@ if (isset($_POST['update_photo']) && isset($_FILES['photo'])) {
                 <form method="POST">
                     <div class="form-group">
                         <label>Username Baru</label>
-                        <input type="text" name="new_username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+                        <input type="text" name="new_username"
+                            value="<?php echo htmlspecialchars($user['username']); ?>" required>
                     </div>
                     <button type="submit" name="update_username">Simpan Perubahan</button>
                 </form>
             </div>
-            
+
             <!-- Card Ubah Password -->
             <div class="card">
                 <h3>🔒 Ubah Password</h3>
@@ -355,13 +371,13 @@ if (isset($_POST['update_photo']) && isset($_FILES['photo'])) {
                     <button type="submit" name="update_password">Ubah Password</button>
                 </form>
             </div>
-            
+
             <!-- Card Ubah Foto Profil -->
             <div class="card">
                 <h3>📸 Ubah Foto Profil</h3>
-                <img src="<?php echo file_exists($user['photo']) ? htmlspecialchars($user['photo']) : 'uploads/users/default.png'; ?>" 
-                     alt="Current Photo" class="preview-photo"
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23667eea%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2240%22 font-family=%22Arial%22%3E<?php echo strtoupper(substr($user['username'], 0, 1)); ?>%3C/text%3E%3C/svg%3E'">
+                <img src="<?php echo file_exists($user['photo']) ? htmlspecialchars($user['photo']) : 'uploads/users/default.png'; ?>"
+                    alt="Current Photo" class="preview-photo"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23667eea%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2240%22 font-family=%22Arial%22%3E<?php echo strtoupper(substr($user['username'], 0, 1)); ?>%3C/text%3E%3C/svg%3E'">
                 <form method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Pilih Foto Baru (JPG, PNG, GIF - Max 5MB)</label>
@@ -370,7 +386,23 @@ if (isset($_POST['update_photo']) && isset($_FILES['photo'])) {
                     <button type="submit" name="update_photo">Upload Foto</button>
                 </form>
             </div>
+
+            <a href="Game/Tetoris/index.html" class="card-link">
+                <div class="card game-card">
+                    <h3>🎮 Mainkan Game Tetris</h3>
+                    <p>Klik untuk bermain</p>
+                </div>
+            </a>
+
+            <a href="Game/Snake/index.html" class="card-link">
+                <div class="card game-card">
+                    <h3>🎮 Mainkan Game Ular</h3>
+                    <p>Klik untuk bermain</p>
+                </div>
+            </a>
+
         </div>
     </div>
 </body>
+
 </html>
