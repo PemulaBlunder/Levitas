@@ -1,0 +1,453 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: white;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/*container*/
+.fab-container {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 20;
+}
+
+/* tombol bulat */
+.fab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 12px;
+  background: transparent; /* ⬅️ transparan */
+  color: #02103e;
+
+  font-size: 10px;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  box-shadow: none;
+}
+
+.fab-container.active .fab-menu {
+  display: block;
+}
+
+.fab-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0); /* transparan */
+  pointer-events: auto;      /* aktifkan klik untuk overlay */
+  z-index: 15;               /* di bawah menu tapi di atas konten lain */
+  display: none;
+}
+
+/* menu */
+.fab-menu {
+  top: calc(100% + 12px);
+  right: 0;
+
+  position: absolute;
+  background: white;
+  padding: 10px;
+  display: none;
+  z-index: 25;
+  width: calc(100%); /* ⬅️ ikut isi */
+  min-width: 150px;
+  max-width: 280px;
+
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.fab-menu > * {
+  margin-bottom: 12px;
+}
+
+.fab-menu > *:last-child {
+  margin-bottom: 0;
+}
+
+.fab-menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 8px;
+}
+
+.fab-menu a:hover {
+  background: #f0f0f0;
+}
+
+/* aktif */
+.fab-container.active .fab-menu {
+  display: block;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/*Logo*/
+
+.logo h1 {
+  font-family: "Jaro", sans-serif;
+  font-size: 64px; /* Jaro cocok agak besar */
+  color: #02103e;
+  text-transform: uppercase;
+  letter-spacing: 3px; /* Jaro enak dilebarin */
+}
+
+.logo h2 {
+  font-family: "Kumbh Sans", sans-serif;
+  margin-top: -10px;
+  font-size: 12px; /* Jaro cocok agak besar */
+  color: #02103e;
+  margin-bottom: 10px;
+  letter-spacing: 0px; /* Jaro enak dilebarin */
+}
+
+.header {
+  background: white;
+  position: relative;
+  padding: 10px;
+  border-radius: 15px;
+  margin-top: -24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer {
+  margin-top: auto;
+  margin-bottom: 10px;
+  margin-left: -20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* ⬅️ KUNCI */
+
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-link {
+  color: #777;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #0a1a44;
+  text-decoration: underline;
+}
+
+.dot {
+  color: #aaa;
+}
+
+/* GARIS DI SAMPING "TERMS" */
+.footer-line {
+  margin-left: 10px;
+  width: 60px;
+  height: 2px;
+  background-color: #0a1a44;
+}
+
+.social-icons {
+  display: flex;
+  gap: 16px;
+}
+
+.social-icons img {
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.social-icons img:hover {
+  transform: scale(1.15);
+  opacity: 0.8;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.user-details h2 {
+  color: #333;
+  font-family: "Kumbh Sans", sans-serif;
+  margin-bottom: 5px;
+}
+
+.user-details p {
+  color: #666;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 14px;
+}
+
+.section-title {
+  color: #02103e;
+  font-size: 32px;
+  font-family: "Kumbh Sans", sans-serif;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 24px;
+}
+
+.game-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.game-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.game-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.game-card h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 24px;
+}
+
+.game-card p {
+  color: #666;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.play-button {
+  margin-top: 20px;
+  padding: 10px 25px;
+  font-family: "Kumbh Sans", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.play-button:hover {
+  transform: scale(1.05);
+}
+
+.test-btn {
+  padding: 12px 30px;
+  background: #02103e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.test-btn:hover {
+  background: #02103e;
+  transform: translateY(-2px);
+}
+
+.logout-btn {
+  padding: 12px 30px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  font-family: "Kumbh Sans", sans-serif;
+  border-bottom: 2px solid #667eea;
+}
+
+.form-group {
+  margin-bottom: 4px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+}
+
+.alert {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.preview-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 15px auto;
+  display: block;
+  border: 3px solid #667eea;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.game-card {
+  cursor: pointer;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .user-info {
+    flex-direction: column;
+  }
+}
